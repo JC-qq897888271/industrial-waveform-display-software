@@ -3297,14 +3297,16 @@ class WaveformMonitorWindow(QtWidgets.QMainWindow):
         if self.demo_mode_enabled:
             self.auto_connect_enabled = False
             self.resume_sampling_after_connect = False
-            self.reconnect_timer.stop()
+            if hasattr(self, "reconnect_timer"):
+                self.reconnect_timer.stop()
             self._clear_active_connection_attempt()
             self._set_status("演示模式已开启，无外部数据源时也能查看 8 通道波形变化。")
         else:
             self.auto_connect_enabled = True
             self.resume_sampling_after_connect = True
             self._set_status("演示模式已关闭，采样将优先读取外部数据源。")
-            QtCore.QTimer.singleShot(0, self._startup_auto_connect)
+            if hasattr(self, "reconnect_timer"):
+                QtCore.QTimer.singleShot(0, self._startup_auto_connect)
 
     @staticmethod
     def _is_connection_related_error(exc: Exception) -> bool:
