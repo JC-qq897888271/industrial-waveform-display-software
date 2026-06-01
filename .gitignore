@@ -31,3 +31,6 @@ waveform_config.json
 *.jpg
 *.jpeg
 *.exe
+
+!docs/
+!docs/ui-screenshot.png
